@@ -1,8 +1,0 @@
-package drone;
-
-import endPoints.EndPoint;
-public interface Moveable {
-	// to do 
-	// and  other methods
-	public void goAhead(EndPoint point);
-}
