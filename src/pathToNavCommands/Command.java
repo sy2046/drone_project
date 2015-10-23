@@ -6,4 +6,3 @@ public interface Command extends Serializable{
   public void execute();
 }
 
-

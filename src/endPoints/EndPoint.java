@@ -3,6 +3,8 @@ package endPoints;
 import java.io.Serializable;
 
 public class EndPoint implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
 	private int z;
@@ -39,4 +41,3 @@ public class EndPoint implements Serializable{
 	}
 
 }
-

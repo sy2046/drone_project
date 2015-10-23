@@ -82,4 +82,3 @@ public class Drone extends UnicastRemoteObject implements ConfigurableRemoteIF, 
 
 	
 }
-

@@ -9,4 +9,3 @@ public interface Moveable extends Serializable{
 	// and  other methods
 	public void goAhead(EndPoint point);
 }
-
