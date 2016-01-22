@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
+import com.google.gson.Gson;
 import drone.convertor.DummyPathConverter;
 import eventMediatorLocator.EventMediatorLocator;
 import kafka.javaapi.producer.Producer;
@@ -55,7 +56,9 @@ public class Drone implements DroneRemoteIF,Moveable {
 
 	@Override
 	public void goTo(PathPoint point){
-            KeyedMessage<String, PathPoint> data = new KeyedMessage<String, String>(name,point);
+        Gson gson = new Gson();
+            String msg = gson.toJson(point);
+            KeyedMessage<String, PathPoint> data = new KeyedMessage<String, String>(name,msg);
             producer.send(data);
             //this.mediator.notifyLocation(name,point);
     }
