@@ -21,8 +21,9 @@ import pathToNavCommands.PathToComandStrategy;
 import remotes.DroneRemoteIF;
 import remotes.MediatorIF;
 import remotes.Notifiable;
+import utils.MyConstants;
 
-public class Drone extends UnicastRemoteObject implements DroneRemoteIF,Moveable {
+public class Drone implements DroneRemoteIF,Moveable {
 
 	MediatorIF mediator;
     ArrayList<Command> commands;
@@ -30,8 +31,10 @@ public class Drone extends UnicastRemoteObject implements DroneRemoteIF,Moveable
 	PathToComandStrategy convertor;
 	String name;
 
-	public Drone(String name) throws RemoteException, MalformedURLException, NotBoundException {
-        super();
+	public Drone(String name)  {
+
+        this.name = name;
+
         Properties props = new Properties();
         props.put("metadata.broker.list", "localhost:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
@@ -52,7 +55,9 @@ public class Drone extends UnicastRemoteObject implements DroneRemoteIF,Moveable
 
 	@Override
 	public void goTo(PathPoint point){
-            KeyedMessage<String, String> data = new KeyedMessage<String, String>(MyConstants.topic,msg);
+            //Changer le message
+            String msg = "Un message";
+            KeyedMessage<String, String> data = new KeyedMessage<String, String>(name,msg);
             producer.send(data);
             //this.mediator.notifyLocation(name,point);
     }
