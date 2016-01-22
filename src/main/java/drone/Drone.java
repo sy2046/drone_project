@@ -7,9 +7,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Properties;
 
 import drone.convertor.DummyPathConverter;
 import eventMediatorLocator.EventMediatorLocator;
+import kafka.javaapi.producer.Producer;
+import kafka.producer.KeyedMessage;
+import kafka.producer.ProducerConfig;
 import path.PathPoint;
 import path.Path;
 import pathToNavCommands.Command;
@@ -19,18 +23,24 @@ import remotes.MediatorIF;
 import remotes.Notifiable;
 
 public class Drone extends UnicastRemoteObject implements DroneRemoteIF,Moveable {
-	
-	ArrayList<Command> commands;
+
 	MediatorIF mediator;
+    ArrayList<Command> commands;
+    kafka.javaapi.producer.Producer<String,String> producer;
 	PathToComandStrategy convertor;
 	String name;
 
 	public Drone(String name) throws RemoteException, MalformedURLException, NotBoundException {
-		super();
-		this.name =name;
-		this.convertor = new DummyPathConverter(this);
-        this.mediator = EventMediatorLocator.mediator();
-        this.mediator.registerDrone(this);
+        super();
+        Properties props = new Properties();
+        props.put("metadata.broker.list", "localhost:9092");
+        props.put("serializer.class", "kafka.serializer.StringEncoder");
+        //Partitionnement pas important pour l'instant
+        //props.put("partitioner.class", "SimplePartitioner");
+        props.put("request.required.acks", "1");
+        ProducerConfig config = new ProducerConfig(props);
+
+        producer = new Producer<String, String>(config);
 	}
 
 	@Override
@@ -42,12 +52,11 @@ public class Drone extends UnicastRemoteObject implements DroneRemoteIF,Moveable
 
 	@Override
 	public void goTo(PathPoint point){
-        try {
-            this.mediator.notifyLocation(name,point);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+            KeyedMessage<String, String> data = new KeyedMessage<String, String>(MyConstants.topic,msg);
+            producer.send(data);
+            //this.mediator.notifyLocation(name,point);
     }
+
 	@Override
 	public void go() throws RemoteException {
         System.out.println("Drone is up and heading the destination....");
