@@ -27,7 +27,7 @@ public class Drone implements DroneRemoteIF,Moveable {
 
 	MediatorIF mediator;
     ArrayList<Command> commands;
-    kafka.javaapi.producer.Producer<String,String> producer;
+    Producer<String,PathPoint> producer;
 	PathToComandStrategy convertor;
 	String name;
 
@@ -37,13 +37,13 @@ public class Drone implements DroneRemoteIF,Moveable {
 
         Properties props = new Properties();
         props.put("metadata.broker.list", "localhost:9092");
-        props.put("serializer.class", "kafka.serializer.StringEncoder");
+        props.put("serializer.class", "utils.MyCustomSerializer");
         //Partitionnement pas important pour l'instant
         //props.put("partitioner.class", "SimplePartitioner");
         props.put("request.required.acks", "1");
         ProducerConfig config = new ProducerConfig(props);
 
-        producer = new Producer<String, String>(config);
+        producer = new Producer<String, PathPoint>(config);
 	}
 
 	@Override
@@ -55,9 +55,7 @@ public class Drone implements DroneRemoteIF,Moveable {
 
 	@Override
 	public void goTo(PathPoint point){
-            //Changer le message
-            String msg = "Un message";
-            KeyedMessage<String, String> data = new KeyedMessage<String, String>(name,msg);
+            KeyedMessage<String, PathPoint> data = new KeyedMessage<String, String>(name,point);
             producer.send(data);
             //this.mediator.notifyLocation(name,point);
     }
