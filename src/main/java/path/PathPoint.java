@@ -1,12 +1,24 @@
 package path;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 import java.io.Serializable;
 
-public class PathPoint implements Serializable{
+@Generated("org.jsonschema2pojo")
+public class PathPoint {
 	
-	private static final long serialVersionUID = 1L;
+	@SerializedName("x")
+	@Expose
 	private double x;
+
+	@SerializedName("y")
+	@Expose
 	private double y;
+
+	@SerializedName("z")
+	@Expose
 	private double z;
 
 	public PathPoint(double x, double y, double z) {

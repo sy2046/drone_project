@@ -44,7 +44,7 @@ public class App {
             }catch (RuntimeException e){
                 e.printStackTrace();
             }*/
-        ArrayList<String> drones = EventMediatorLocator.mediator().listDrones();
+     /*   ArrayList<String> drones = EventMediatorLocator.mediator().listDrones();
         Collections.sort(drones);
         Scanner scanner = new Scanner(System.in);
         String drone = null;
@@ -115,6 +115,6 @@ public class App {
         }else{
             System.err.println("there is no available drones ...");
             System.exit(-1);
-        }
+        }*/
     }
 }
