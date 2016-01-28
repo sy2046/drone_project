@@ -19,13 +19,13 @@ public class Drone implements DroneRemoteIF,Moveable {
 
     ArrayList<String> commands;
     Producer<String,String> producer;
-	StringToCommandStrategy convertor;
+	StringToCommandStrategy converter;
 	String name;
 
 	public Drone(String name)  {
 
         this.name = name;
-        this.convertor = new DummyStringConverter(this);
+        this.converter = new DummyStringConverter(this);
 
         Properties props = new Properties();
         props.put("metadata.broker.list", "localhost:"+ MyConstants.INITIAL_BROKER_PORT);
@@ -60,7 +60,7 @@ public class Drone implements DroneRemoteIF,Moveable {
         System.out.print("[");
 
         for(int i = commands.size()-1 ; i >=0 ; i--){
-            convertor.executeCommand(commands.get(i));
+            converter.executeCommand(commands.get(i));
 
             //if(i%50 == 0)  System.out.print("=");
             try {
