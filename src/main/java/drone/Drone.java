@@ -22,6 +22,7 @@ import pathToNavCommands.PathToComandStrategy;
 import remotes.DroneRemoteIF;
 import remotes.MediatorIF;
 import remotes.Notifiable;
+import utils.MyConstants;
 
 public class Drone implements DroneRemoteIF,Moveable {
 
@@ -36,7 +37,7 @@ public class Drone implements DroneRemoteIF,Moveable {
         this.convertor = new DummyPathConverter(this);
 
         Properties props = new Properties();
-        props.put("metadata.broker.list", "localhost:9092");
+        props.put("metadata.broker.list", "localhost:"+ MyConstants.INITIAL_BROKER_PORT);
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         //Partitionnement pas important pour l'instant
         //props.put("partitioner.class", "SimplePartitioner");

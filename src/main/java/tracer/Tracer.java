@@ -20,6 +20,7 @@ import remotes.MediatorIF;
 import remotes.Notifiable;
 import remotes.TracableRemoteIF;
 import remotes.TracerIF;
+import utils.MyConstants;
 
 public class Tracer implements TracerIF {
 
@@ -95,7 +96,7 @@ public class Tracer implements TracerIF {
     }
 
 	public static void main(String args[]) {
-		Tracer tracer = new Tracer("id3","drone34","localhost:2181");
+		Tracer tracer = new Tracer("id3","drone34","localhost:"+ MyConstants.KAFKA_ZK_PORT);
 		tracer.run(1);
 	}
 }
