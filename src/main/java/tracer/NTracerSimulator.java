@@ -1,20 +1,5 @@
 package tracer;
 
-import drone.Drone;
-import endPoints.AdressEndPoints;
-import eventMediatorLocator.EventMediatorLocator;
-import path.Path;
-import pathFinder.GooglePathFinder;
-import pathFinder.PathPlannerStrategy;
-import remotes.DroneRemoteIF;
-import remotes.TracerIF;
-
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * Created by mohannad on 07/01/16.
  */

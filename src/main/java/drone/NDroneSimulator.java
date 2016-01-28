@@ -1,11 +1,7 @@
 package drone;
 
-import eventMediatorLocator.EventMediatorLocator;
 import remotes.DroneRemoteIF;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**

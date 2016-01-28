@@ -1,15 +1,3 @@
-import drone.Drone;
-import endPoints.AdressEndPoints;
-import eventMediatorLocator.EventMediatorLocator;
-import path.Path;
-import pathFinder.GooglePathFinder;
-import pathFinder.PathPlannerStrategy;
-import remotes.TracerIF;
-import tracer.Tracer;
-import utils.MyConstants;
-
-import java.util.Random;
-
 /**
  * Created by sy306571 on 28/01/16.
  */

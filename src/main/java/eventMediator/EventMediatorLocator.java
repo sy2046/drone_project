@@ -1,4 +1,4 @@
-package eventMediatorLocator;
+package eventMediator;
 
 import remotes.MediatorIF;
 

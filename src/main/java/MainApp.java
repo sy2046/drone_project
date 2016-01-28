@@ -1,20 +1,3 @@
-import endPoints.AdressEndPoints;
-import eventMediatorLocator.EventMediatorLocator;
-import maps.GoogleMap;
-import maps.MapIF;
-import path.Path;
-import pathFinder.GooglePathFinder;
-import pathFinder.PathPlannerStrategy;
-import remotes.TracerIF;
-import tracer.Tracer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Scanner;
-
 /**
  * Created by mohannad on 02/01/16.
  */

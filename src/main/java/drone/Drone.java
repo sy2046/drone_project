@@ -11,7 +11,6 @@ import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import path.PathPoint;
-import pathToNavCommands.Command;
 import pathToNavCommands.StringToCommandStrategy;
 import remotes.DroneRemoteIF;
 import utils.MyConstants;
@@ -49,9 +48,10 @@ public class Drone implements DroneRemoteIF,Moveable {
 	@Override
 	public void goTo(PathPoint point){
         Gson gson = new Gson();
-            String msg = gson.toJson(point);
-            KeyedMessage<String, String> data = new KeyedMessage<>(name,msg);
-            producer.send(data);
+        String msg = gson.toJson(point);
+        KeyedMessage<String, String> data = new KeyedMessage<>(name, msg);
+        //System.out.println(msg);
+        producer.send(data);
     }
 
 	@Override
@@ -62,9 +62,9 @@ public class Drone implements DroneRemoteIF,Moveable {
         for(int i = commands.size()-1 ; i >=0 ; i--){
             convertor.executeCommand(commands.get(i));
 
-            if(i%50 == 0)  System.out.print("=");
+            //if(i%50 == 0)  System.out.print("=");
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -80,17 +80,16 @@ public class Drone implements DroneRemoteIF,Moveable {
     }
 
 
-   /* public static void main(String args[]) {
+   public static void main(String args[]) {
         //ArrayList<String> drones = EventMediatorLocator.mediator().listDrones();
         //int len =0;
         //if(drones!=null) len=drones.size();
-        DroneRemoteIF drone = new Drone("drone34");
-        ArrayList<PathPoint> path = new ArrayList<>();
-        path.add(new PathPoint(23,12,1));
-        path.add(new PathPoint(23,20,1));
-        path.add(new PathPoint(23,14,1));
-        path.add(new PathPoint(23,12,7));
-        path.add(new PathPoint(27,12,9));
+        DroneRemoteIF drone = new Drone("drone");
+        ArrayList<String> path = new ArrayList<>();
+        path.add("goAhead 12 12 12");
+        path.add("goAhead 23 24 24");
+        path.add("goAhead 21 24 23");
+
         try {
             drone.loadPath(path);
             drone.go();
@@ -98,5 +97,5 @@ public class Drone implements DroneRemoteIF,Moveable {
             e.printStackTrace();
         }
         System.out.println("drone 33 is up and running");
-    }*/
+    }
 }
