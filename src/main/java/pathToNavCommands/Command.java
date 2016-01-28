@@ -1,9 +1,12 @@
 package pathToNavCommands;
 
+import drone.Moveable;
+import path.PathPoint;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
 public interface Command extends Serializable{
-  public void execute() throws RemoteException;
+  void execute(Moveable drone, String[] params);
 }
 

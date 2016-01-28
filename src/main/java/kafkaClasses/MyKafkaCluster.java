@@ -1,4 +1,4 @@
-package kafka;
+package kafkaClasses;
 
 import kafka.admin.AdminUtils;
 import kafka.utils.ZKStringSerializer$;
@@ -19,7 +19,7 @@ public class MyKafkaCluster {
         EmbeddedZookeeper embeddedZookeeper = new EmbeddedZookeeper(MyConstants.KAFKA_ZK_PORT);
         List<Integer> kafkaPorts = new ArrayList<Integer>();
         // -1 for any available port
-        kafkaPorts.add(9092);
+        kafkaPorts.add(MyConstants.INITIAL_BROKER_PORT);
         EmbeddedKafkaCluster embeddedKafkaCluster = new EmbeddedKafkaCluster(embeddedZookeeper.getConnection(), new Properties(), kafkaPorts);
         try {
             embeddedZookeeper.startup();
@@ -32,6 +32,19 @@ public class MyKafkaCluster {
 
         //embeddedKafkaCluster.shutdown();
         //embeddedZookeeper.shutdown();
+
+
+        // Create a ZooKeeper client
+        int sessionTimeoutMs = 10000;
+        int connectionTimeoutMs = 10000;
+        ZkClient zkClient = new ZkClient("localhost:"+ MyConstants.KAFKA_ZK_PORT, sessionTimeoutMs, connectionTimeoutMs, ZKStringSerializer$.MODULE$);
+
+        // Create the topics for the communication between drones and tracers
+        String topicName = "drone";
+        int numPartitions = 1;
+        int replicationFactor = 1;
+        Properties topicConfig = new Properties();
+        AdminUtils.createTopic(zkClient, topicName, numPartitions, replicationFactor, topicConfig);
 
     }
 }

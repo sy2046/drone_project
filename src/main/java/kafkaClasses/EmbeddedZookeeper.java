@@ -1,4 +1,4 @@
-package kafka;
+package kafkaClasses;
 
 import org.apache.zookeeper.server.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.ServerCnxnFactory;

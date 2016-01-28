@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Created by mohannad on 02/01/16.
  */
-public class EventMediator extends UnicastRemoteObject implements MediatorIF {
+/*public class EventMediator extends UnicastRemoteObject implements MediatorIF {
 
     Hashtable<String,DroneRemoteIF> drones = new Hashtable<>();
     Hashtable<String, TracerIF> tracers = new Hashtable<>();
@@ -105,4 +105,4 @@ public class EventMediator extends UnicastRemoteObject implements MediatorIF {
         System.out.println(name+" is up and running");
     }
 
-}
+}*/

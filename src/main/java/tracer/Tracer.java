@@ -1,35 +1,23 @@
 package tracer;
 
-
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import eventMediatorLocator.EventMediatorLocator;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import maps.MapIF;
 import path.PathPoint;
 import remotes.MediatorIF;
-import remotes.Notifiable;
-import remotes.TracableRemoteIF;
 import remotes.TracerIF;
-import utils.MyConstants;
 
 public class Tracer implements TracerIF {
 
-	MediatorIF mediator;
 	String drone ;
 	String name;
     MapIF map;
 	private final ConsumerConnector consumer;
-	private ExecutorService executor;
 
 	public Tracer(String a_groupId, String a_topic,String a_zookeeper) {
 		this.drone = a_topic;
@@ -61,7 +49,7 @@ public class Tracer implements TracerIF {
 
 		// now launch all the threads
 		//
-		executor = Executors.newFixedThreadPool(a_numThreads);
+		ExecutorService executor = Executors.newFixedThreadPool(a_numThreads);
 
 		// now create an object to consume the messages
 		//
@@ -78,12 +66,10 @@ public class Tracer implements TracerIF {
 		if(this.map!=null) this.map.setPossition(p);
 	}
 
-	
 	@Override
-	public void done() throws RemoteException {
+	public void done() {
 		System.out.println("Drone has reached its destination .....");
 	}
-
 
 	@Override
 	public String getName() {
@@ -95,8 +81,8 @@ public class Tracer implements TracerIF {
         this.map = map;
     }
 
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		Tracer tracer = new Tracer("id3","drone34","localhost:"+ MyConstants.KAFKA_ZK_PORT);
 		tracer.run(1);
-	}
+	}*/
 }

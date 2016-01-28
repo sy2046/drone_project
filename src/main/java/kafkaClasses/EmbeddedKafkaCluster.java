@@ -1,4 +1,4 @@
-package kafka;
+package kafkaClasses;
 
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServer;

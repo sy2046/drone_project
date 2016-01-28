@@ -1,4 +1,4 @@
-package kafka;
+package kafkaClasses;
 
 import java.io.File;
 import java.io.FileNotFoundException;

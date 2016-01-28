@@ -1,4 +1,4 @@
-package kafka;
+package kafkaClasses;
 
 import kafka.utils.Time;
 
