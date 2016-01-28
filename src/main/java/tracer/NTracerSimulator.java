@@ -19,14 +19,7 @@ import java.util.Random;
  * Created by mohannad on 07/01/16.
  */
 public class NTracerSimulator {
-    public static void main(String args []){
-        int n = 1000;
-        for(int i=0 ; i< n ; i++){
-            Thread t = new Thread(new NTracerSimulator.TracerTask());
-            t.start();
-        }
-    }
-
+/*
     static class TracerTask implements Runnable {
 
         public TracerTask() {
@@ -68,5 +61,5 @@ public class NTracerSimulator {
             }
 
         }
-    }
+    }*/
 }
