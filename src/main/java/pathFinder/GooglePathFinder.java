@@ -24,6 +24,7 @@ public class GooglePathFinder implements  PathPlannerStrategy {
 
     private String key = "AIzaSyDRRinfRhWRbWSTPAw_3MA6K2LpTziucXQ";
     private String urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=";
+    private Path p;
 
     @Override
     public Path findPath(AdressEndPoints endPoints) {
@@ -49,6 +50,12 @@ public class GooglePathFinder implements  PathPlannerStrategy {
         }
 
         return null;
+    }
+    private void setPath(Path p){
+        this.p = p;
+    }
+    private Path getPath(){
+        return p;
     }
 
     private  Path parse(JSONObject jObject){
@@ -86,6 +93,7 @@ public class GooglePathFinder implements  PathPlannerStrategy {
         }catch(Exception e){
             e.printStackTrace();
         }
+        setPath(rpath);
         return rpath;
     }
 
