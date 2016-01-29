@@ -11,6 +11,7 @@ import maps.MapIF;
 import path.PathPoint;
 import remotes.MediatorIF;
 import remotes.TracerIF;
+import utils.MyConstants;
 
 public class Tracer implements TracerIF {
 
@@ -81,8 +82,12 @@ public class Tracer implements TracerIF {
         this.map = map;
     }
 
+	/*public void goDrone(){
+
+	}*/
+
 	/*public static void main(String args[]) {
-		Tracer tracer = new Tracer("id3","drone34","localhost:"+ MyConstants.KAFKA_ZK_PORT);
+		Tracer tracer = new Tracer("id3","drone","localhost:"+ MyConstants.KAFKA_ZK_PORT);
 		tracer.run(1);
 	}*/
 }

@@ -40,11 +40,13 @@ public class MyKafkaCluster {
         ZkClient zkClient = new ZkClient("localhost:"+ MyConstants.KAFKA_ZK_PORT, sessionTimeoutMs, connectionTimeoutMs, ZKStringSerializer$.MODULE$);
 
         // Create the topics for the communication between drones and tracers
-        String topicName = "drone";
         int numPartitions = 1;
         int replicationFactor = 1;
         Properties topicConfig = new Properties();
-        AdminUtils.createTopic(zkClient, topicName, numPartitions, replicationFactor, topicConfig);
+        for(int i=0; i<5; i++){
+            AdminUtils.createTopic(zkClient, "drone-in", numPartitions, replicationFactor, topicConfig);
+            AdminUtils.createTopic(zkClient, "drone-out", numPartitions, replicationFactor, topicConfig);
+        }
 
     }
 }
