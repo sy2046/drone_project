@@ -19,7 +19,10 @@ public class MyKafkaCluster {
         EmbeddedZookeeper embeddedZookeeper = new EmbeddedZookeeper(MyConstants.KAFKA_ZK_PORT);
         List<Integer> kafkaPorts = new ArrayList<Integer>();
         // -1 for any available port
-        kafkaPorts.add(MyConstants.INITIAL_BROKER_PORT);
+        for(int i=0; i<MyConstants.NUMBER_OF_BROKERS; i++){
+            kafkaPorts.add(MyConstants.INITIAL_BROKER_PORT+i);
+        }
+
         EmbeddedKafkaCluster embeddedKafkaCluster = new EmbeddedKafkaCluster(embeddedZookeeper.getConnection(), new Properties(), kafkaPorts);
         try {
             embeddedZookeeper.startup();
@@ -43,9 +46,10 @@ public class MyKafkaCluster {
         int numPartitions = 1;
         int replicationFactor = 1;
         Properties topicConfig = new Properties();
-        for(int i=0; i<5; i++){
-            AdminUtils.createTopic(zkClient, "drone-in", numPartitions, replicationFactor, topicConfig);
-            AdminUtils.createTopic(zkClient, "drone-out", numPartitions, replicationFactor, topicConfig);
+        for(int i=0; i<MyConstants.NUMBER_OF_DRONES; i++){
+            AdminUtils.createTopic(zkClient, "drone"+i+"-in", numPartitions, replicationFactor, topicConfig);
+            AdminUtils.createTopic(zkClient, "drone"+i+"-out", numPartitions, replicationFactor, topicConfig);
+            System.out.println("drone"+i+"'s topic created");
         }
 
     }

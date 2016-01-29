@@ -1,6 +1,7 @@
 package drone;
 
 import remotes.DroneRemoteIF;
+import utils.MyConstants;
 
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 public class NDroneSimulator {
 
 public static void main(String args []){
-    int n =  1000;
+    int n = MyConstants.NUMBER_OF_DRONES;
     for(int i=0 ; i< n ; i++){
         Thread t = new Thread(new NDroneSimulator.DroneTask(i));
         t.start();
@@ -25,17 +26,23 @@ public static void main(String args []){
         @Override
         public void run() {
             Random genetator = new Random();
-            try {
+           // try {
                 //ArrayList<String> drones = EventMediatorLocator.mediator().listDrones();
                 //int len =EventMediatorLocator.mediator().size();
                 //if(drones!=null) len=drones.size();
-                DroneRemoteIF drone = new Drone("drone@"+id);
+                //System.out.println("");
+                Drone drone = new Drone("drone"+id);
+                drone.run(1);
                 System.out.println(drone.getName()+" is up and running");
-
-            } catch (Exception e) {
-                System.err.println("Client exception: " + e.toString());
+            try {
+                Thread.sleep(genetator.nextInt(1000));
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+           /* } catch (Exception e) {
+                System.err.println("Client exception: " + e.toString());
+                e.printStackTrace();
+            }*/
         }
 
     }

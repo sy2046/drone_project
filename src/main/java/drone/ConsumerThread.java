@@ -26,14 +26,15 @@ public class ConsumerThread implements Runnable {
         ArrayList<String> commands = new ArrayList<>();
         while (it.hasNext()){
             String msg = new String(it.next().message());
-            if(msg.equals("Finished")){
-                drone.loadPath(commands);
+            //if(msg.equals("Finished")){
+            String[] arrayCommands = msg.substring(1,msg.length()-1).split(",");
+                drone.loadPath(arrayCommands);
                 commands = new ArrayList<>();
                 drone.go();
-            }
+           /* }
             else{
                 commands.add(msg);
-            }
+            }*/
             //System.out.println("*** Drone moved to these coordinates "+json.getDouble("x"));
             // "("+json.getString("x")+","+json.getString("y")+","+json.getString("z")+") ***");
         }

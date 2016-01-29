@@ -23,7 +23,7 @@ import utils.MyConstants;
 
 public class Drone implements DroneRemoteIF,Moveable {
 
-    ArrayList<String> commands;
+    String[] commands;
     Producer<String,String> producer;
     private final ConsumerConnector consumer;
 	StringToCommandStrategy converter;
@@ -44,10 +44,9 @@ public class Drone implements DroneRemoteIF,Moveable {
 
         producer = new Producer<>(config);
 
-        // /!\Il faut consommer les msg d'un topic precis, ce n'est pas encore le cas /!\
         Properties props2 = new Properties();
         props2.put("zookeeper.connect", "localhost:"+MyConstants.KAFKA_ZK_PORT);
-        props2.put("group.id", name);
+        props2.put("group.id", name+"consumer");
         props2.put("zookeeper.session.timeout.ms", "400");
         props2.put("zookeeper.sync.time.ms", "200");
         props2.put("auto.commit.interval.ms", "1000");
@@ -57,12 +56,11 @@ public class Drone implements DroneRemoteIF,Moveable {
                 new ConsumerConfig(props2));
 	}
 
-    //Ne sert qu'a tester
 	@Override
-	public void loadPath(ArrayList<String> commands) {
+	public void loadPath(String[] commands) {
 		this.commands = commands;
 		System.out.println("Path has been loaded successfully ......");
-        System.out.println(commands);
+        //System.out.println(commands);
 	}
 
     public void run(int a_numThreads) {
@@ -96,12 +94,12 @@ public class Drone implements DroneRemoteIF,Moveable {
 	@Override
 	public void go() {
         System.out.println("Drone is up and heading the destination....");
-        System.out.print("[");
+        //System.out.print("[");
 
-        for(int i = commands.size()-1 ; i >=0 ; i--){
-            converter.executeCommand(commands.get(i));
+        for(int i = commands.length-1 ; i >=0 ; i--){
+            converter.executeCommand(commands[i]);
 
-            System.out.print("=");
+            //System.out.print("=");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -109,7 +107,7 @@ public class Drone implements DroneRemoteIF,Moveable {
                 e.printStackTrace();
             }
         }
-        System.out.println(">]");
+        //System.out.println(">]");
         System.out.println("Drone has reached its destination .....");
 	}
 
@@ -123,7 +121,6 @@ public class Drone implements DroneRemoteIF,Moveable {
         //ArrayList<String> drones = EventMediatorLocator.mediator().listDrones();
         //int len =0;
         //if(drones!=null) len=drones.size();
-        Drone drone = new Drone("drone");
         /*ArrayList<String> path = new ArrayList<>();
         path.add("goAhead 12 12 12");
         path.add("goAhead 23 24 24");
@@ -135,7 +132,12 @@ public class Drone implements DroneRemoteIF,Moveable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-        drone.run(1);
-        System.out.println("drone 33 is up and running");
+        Drone[] drones = new Drone[MyConstants.NUMBER_OF_DRONES];
+        for(int i=0; i<MyConstants.NUMBER_OF_DRONES; i++){
+            drones[i] = new Drone("drone"+i);
+            drones[i].run(1);
+            System.out.println("drone"+i+" is up and running");
+        }
+
     }
 }

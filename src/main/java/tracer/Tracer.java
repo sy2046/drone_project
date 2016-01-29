@@ -44,9 +44,9 @@ public class Tracer implements TracerIF {
 
 	public void run(int a_numThreads) {
 		Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
-		topicCountMap.put(drone, a_numThreads);
+		topicCountMap.put(drone+"-out", a_numThreads);
 		Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
-		List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(drone);
+		List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(drone+"-out");
 
 		// now launch all the threads
 		//
@@ -56,7 +56,7 @@ public class Tracer implements TracerIF {
 		//
 		int threadNumber = 0;
 		for (final KafkaStream stream : streams) {
-			executor.submit(new ConsumerTest(stream, threadNumber));
+			executor.submit(new ConsumerTest(stream, threadNumber,drone));
 			threadNumber++;
 		}
 	}

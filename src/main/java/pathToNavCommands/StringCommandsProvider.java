@@ -7,6 +7,7 @@ import kafka.producer.ProducerConfig;
 import path.PathPoint;
 import utils.MyConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -39,16 +40,31 @@ public class StringCommandsProvider {
 
     public void sendStringCommands(){
         List<String> stringCommands = PathToStringCommandConverter.convertPath(path);
-        Gson gson = new Gson();
-        String msg;
-        for(String command : stringCommands){
-            msg = gson.toJson(command);
-            KeyedMessage<String, String> data = new KeyedMessage<>(drone, msg);
-            //System.out.println(msg);
+        //Gson gson = new Gson();
+        String msg = stringCommands.toString();
+        //for(String command : stringCommands){
+        //    msg = gson.toJson(command);
+            KeyedMessage<String, String> data = new KeyedMessage<>(drone+"-in", msg);
+
             producer.send(data);
-        }
-        msg = "Finished";
+        //}
+        /*msg = "Finished";
         KeyedMessage<String, String> fin = new KeyedMessage<>(drone, msg);
-        producer.send(fin);
+        producer.send(fin);*/
+    }
+
+    public static class PathToStringCommandConverter {
+
+        public static List<String> convertPath(List<PathPoint> path) {
+            List<String> stringCommands = new ArrayList<>();
+
+            for(PathPoint point : path){
+                String command = "goAhead "+ point.getX()+ " "+ point.getY() + " " + point.getZ();
+                stringCommands.add(command);
+            }
+
+            return stringCommands;
+        }
+
     }
 }

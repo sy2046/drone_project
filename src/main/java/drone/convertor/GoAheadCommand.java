@@ -13,7 +13,7 @@ public class GoAheadCommand implements Command {
 	@Override
 	public void execute(Moveable drone, String[] params)  {
 		PathPoint point = new PathPoint(Double.parseDouble(params[1]),Double.parseDouble(params[2]),
-				Double.parseDouble(params[3].substring(0,params[3].length()-1)));
+				Double.parseDouble(params[3]));
 		drone.goTo(point);
 	}
 
