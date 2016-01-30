@@ -75,7 +75,7 @@ public class Drone_control {
 		} catch (Exception e) {
 			System.out.println("Error Parsing: - ");
 		}
-		System.out.println("Path Received: " + positionBuilder.toString());
+		System.out.println("Position Received: " + positionBuilder.toString());
 
 		// return HTTP response 200 in case of success
 		return Response.status(200).entity(positionBuilder.toString()).build();
