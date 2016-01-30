@@ -1,22 +1,13 @@
-import drone.Drone;
-import endPoints.AdressEndPoints;
-import path.Path;
-import path.PathPoint;
-import pathFinder.GooglePathFinder;
-import pathFinder.PathPlannerStrategy;
-import remotes.DroneRemoteIF;
-import remotes.TracerIF;
 import tracer.Tracer;
 import utils.MyConstants;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulation {
+public class NTracerSimulation {
     public static void main(String args[]) {
         int n = MyConstants.NUMBER_OF_DRONES;
         for (int i = 0; i < n; i++) {
-            Thread t = new Thread(new Simulation.TracerTask(i));
+            Thread t = new Thread(new NTracerSimulation.TracerTask(i));
             t.start();
         }
     }

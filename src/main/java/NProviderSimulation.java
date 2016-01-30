@@ -8,11 +8,11 @@ import java.util.Random;
 /**
  * Created by sy306571 on 30/01/16.
  */
-public class ProviderSimulation {
+public class NProviderSimulation {
     public static void main(String args[]) {
         int n = MyConstants.NUMBER_OF_DRONES;
         for (int i = 0; i < n; i++) {
-            Thread t = new Thread(new ProviderSimulation.ProviderTask(i));
+            Thread t = new Thread(new NProviderSimulation.ProviderTask(i));
             t.start();
         }
     }
