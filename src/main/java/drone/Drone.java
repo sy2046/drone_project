@@ -61,7 +61,6 @@ public class Drone implements DroneRemoteIF,Moveable {
 	public void loadPath(JsonArray commands) {
 		this.commands = commands;
 		System.out.println("Path has been loaded successfully ......");
-        System.out.println(commands);
 	}
 
     public void run(int a_numThreads) {

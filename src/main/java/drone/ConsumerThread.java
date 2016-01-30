@@ -36,11 +36,6 @@ public class ConsumerThread implements Runnable {
             JsonArray arrayCommands = (JsonArray) j.parse(msg);
             //String[] arrayCommands = msg.substring(1,msg.length()-1).split(", ");
             drone.loadPath(arrayCommands);
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             drone.go();
            /* }
             else{
