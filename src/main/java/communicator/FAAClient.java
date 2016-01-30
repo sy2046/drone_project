@@ -4,6 +4,10 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
 
+/*
+	FAA web service via socket
+*/
+
 public class FAAClient {
 
 	   public void post(String msg) throws Exception{
