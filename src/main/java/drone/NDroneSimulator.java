@@ -31,7 +31,8 @@ public static void main(String args []){
                 //int len =EventMediatorLocator.mediator().size();
                 //if(drones!=null) len=drones.size();
                 //System.out.println("");
-                Drone drone = new Drone("drone"+id);
+            int nb_topics_per_zookeeper = MyConstants.NUMBER_OF_DRONES/MyConstants.NUMBER_OF_ZOOKEEPER;
+                Drone drone = new Drone("drone"+id,"localhost:"+(MyConstants.KAFKA_ZK_PORT+(id/nb_topics_per_zookeeper)));
                 drone.run(1);
                 System.out.println(drone.getName()+" is up and running");
             try {

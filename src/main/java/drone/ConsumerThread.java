@@ -1,8 +1,12 @@
 package drone;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
-import org.json.JSONObject;
+import kafka.utils.Json;
+import org.json.JSONArray;
 import remotes.DroneRemoteIF;
 
 import java.util.ArrayList;
@@ -27,13 +31,12 @@ public class ConsumerThread implements Runnable {
         while (it.hasNext()){
             String msg = new String(it.next().message());
             //if(msg.equals("Finished")){
-            String[] arrayCommands = msg.substring(1,msg.length()-1).split(", ");
-            for(String str : arrayCommands){
-                System.out.println(str);
-            }
-                drone.loadPath(arrayCommands);
 
-                drone.go();
+            JsonParser j = new JsonParser();
+            JsonArray arrayCommands = (JsonArray) j.parse(msg);
+            //String[] arrayCommands = msg.substring(1,msg.length()-1).split(", ");
+            drone.loadPath(arrayCommands);
+            drone.go();
            /* }
             else{
                 commands.add(msg);
