@@ -73,7 +73,7 @@ public class CommunicatorReceiver{
             }
         }
 
-        @Override
+        /*@Override
         public void notify(PathPoint p) {
             System.out.println(p);
             if(this.map!=null) this.map.setPossition(p);
@@ -92,6 +92,6 @@ public class CommunicatorReceiver{
         @Override
         public void setMap(MapIF map) {
             this.map = map;
-        }
+        }*/
 
 }

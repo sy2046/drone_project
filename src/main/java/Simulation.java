@@ -1,6 +1,7 @@
 import drone.Drone;
 import endPoints.AdressEndPoints;
 import path.Path;
+import path.PathPoint;
 import pathFinder.GooglePathFinder;
 import pathFinder.PathPlannerStrategy;
 import pathToNavCommands.StringCommandsProvider;
@@ -9,6 +10,7 @@ import remotes.TracerIF;
 import tracer.Tracer;
 import utils.MyConstants;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Simulation {
@@ -32,16 +34,23 @@ public class Simulation {
         public void run() {
             Random genetator = new Random();
             //String drone = EventMediatorLocator.mediator().allocateDrone();
-            if (id != 0) {
                 String dest[] = {"Dijon", "Lille", "Rennes", "Tours", "Caen", "Nantes", "Angers"};
                 Random random = new Random();
                 int idx1 = random.nextInt(7);
-                String destination = dest[idx1];
+                //String destination = dest[idx1];
+                String destination = "Paris";
                 int idx2 = random.nextInt(7);
                 if (idx2 == idx1) {
                     idx2 = (idx2 + 1) % dest.length;
                 }
-                String start = dest[idx2];
+
+                ArrayList<PathPoint> path = new ArrayList<>();
+                for(int i=0; i<20;i++){
+                    path.add(new PathPoint(10+i,20,12));
+                }
+
+                //String start = dest[idx2];
+                String start = "Meaux";
                 PathPlannerStrategy pathPlanner = new GooglePathFinder();
                 System.out.println(start + ":" + destination);
                 Path p = pathPlanner.findPath(new AdressEndPoints(start, destination));
@@ -49,7 +58,7 @@ public class Simulation {
                 Tracer tracer = new Tracer("tracer" + id, "drone" + id, "localhost:" + MyConstants.KAFKA_ZK_PORT);
                 tracer.run(1);
                 StringCommandsProvider provider = new StringCommandsProvider("drone"+id);
-                provider.setPath(p.getPathPoints());
+                provider.setPath(path);
                 provider.sendStringCommands();
                 try {
                     Thread.sleep(genetator.nextInt(1000));
@@ -57,8 +66,6 @@ public class Simulation {
                     e.printStackTrace();
                 }
                 //EventMediatorLocator.mediator().startDelivary(drone);
-
-            }
         }
 
     }

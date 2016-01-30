@@ -30,7 +30,7 @@ public class ThreadForCommunicator implements Runnable {
             String msg = new String(it.next().message());
             JSONObject json = new JSONObject(msg);
             //method for sending the json(postion) with interval (not every position)
-            receiver.sendForCommunicatorSender(json);
+            //receiver.sendForCommunicatorSender(json);
             System.out.println("*** Drone moved to these coordinates "+json.getDouble("x"));
             // "("+json.getString("x")+","+json.getString("y")+","+json.getString("z")+") ***");
         }

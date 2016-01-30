@@ -23,13 +23,16 @@ public class ConsumerThread implements Runnable {
 
     public void run() {
         ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
-        ArrayList<String> commands = new ArrayList<>();
+
         while (it.hasNext()){
             String msg = new String(it.next().message());
             //if(msg.equals("Finished")){
-            String[] arrayCommands = msg.substring(1,msg.length()-1).split(",");
+            String[] arrayCommands = msg.substring(1,msg.length()-1).split(", ");
+            for(String str : arrayCommands){
+                System.out.println(str);
+            }
                 drone.loadPath(arrayCommands);
-                commands = new ArrayList<>();
+
                 drone.go();
            /* }
             else{

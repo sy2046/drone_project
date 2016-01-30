@@ -18,8 +18,7 @@ public class DummyStringConverter implements StringToCommandStrategy {
 
 @Override
 public void executeCommand(String stringCommand) {
-	String cleanCommand = stringCommand.substring(1,stringCommand.length()-1);
-	String[] params = cleanCommand.split(" ");
+	String[] params = stringCommand.split(" ");
 	Command command = commands.get(params[0]);
 	command.execute(drone,params);
 }
