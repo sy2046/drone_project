@@ -60,4 +60,24 @@ public class Drone_control {
 		// return HTTP response 200 in case of success
 		return Response.status(200).entity(pathBuilder.toString()).build();
 	}
+	
+	@POST
+	@Path("/position")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response positionREST(InputStream incomingData) {
+		StringBuilder positionBuilder = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				positionBuilder.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		System.out.println("Path Received: " + positionBuilder.toString());
+
+		// return HTTP response 200 in case of success
+		return Response.status(200).entity(positionBuilder.toString()).build();
+	}
 }
