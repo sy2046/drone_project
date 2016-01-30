@@ -1,14 +1,13 @@
 package drone;
 
 
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.google.gson.Gson;
-import drone.convertor.DummyStringConverter;
-import kafka.api.OffsetRequest;
+import com.google.gson.JsonArray;
+import drone.convertor.DummyJsonConverter;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
@@ -16,26 +15,29 @@ import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import path.PathPoint;
-import pathToNavCommands.StringToCommandStrategy;
+import pathToNavCommands.JsonToCommandStrategy;
 import remotes.DroneRemoteIF;
-import tracer.ConsumerTest;
 import utils.MyConstants;
 
 public class Drone implements DroneRemoteIF,Moveable {
 
-    String[] commands;
+    JsonArray commands;
     Producer<String,String> producer;
     private final ConsumerConnector consumer;
-	StringToCommandStrategy converter;
+	JsonToCommandStrategy converter;
 	String name;
 
-	public Drone(String name)  {
+	public Drone(String name,String a_zookeeper)  {
 
         this.name = name;
-        this.converter = new DummyStringConverter(this);
+        this.converter = new DummyJsonConverter(this);
 
         Properties props = new Properties();
-        props.put("metadata.broker.list", "localhost:"+ MyConstants.INITIAL_BROKER_PORT);
+        String listBrokers = "localhost:"+MyConstants.INITIAL_BROKER_PORT;
+        for(int i=1; i<MyConstants.NUMBER_OF_BROKERS; i++){
+            listBrokers = listBrokers + ",localhost:"+(MyConstants.INITIAL_BROKER_PORT+i);
+        }
+        props.put("metadata.broker.list", listBrokers);
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         //Partitionnement pas important pour l'instant
         //props.put("partitioner.class", "SimplePartitioner");
@@ -45,22 +47,21 @@ public class Drone implements DroneRemoteIF,Moveable {
         producer = new Producer<>(config);
 
         Properties props2 = new Properties();
-        props2.put("zookeeper.connect", "localhost:"+MyConstants.KAFKA_ZK_PORT);
+        props2.put("zookeeper.connect", a_zookeeper);
         props2.put("group.id", name+"consumer");
-        props2.put("zookeeper.session.timeout.ms", "400");
+        //props2.put("zookeeper.session.timeout.ms", "10000");
         props2.put("zookeeper.sync.time.ms", "200");
         props2.put("auto.commit.interval.ms", "1000");
-        //props2.put("startOffsetTime",);
 
         consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
                 new ConsumerConfig(props2));
 	}
 
 	@Override
-	public void loadPath(String[] commands) {
+	public void loadPath(JsonArray commands) {
 		this.commands = commands;
 		System.out.println("Path has been loaded successfully ......");
-        //System.out.println(commands);
+        System.out.println(commands);
 	}
 
     public void run(int a_numThreads) {
@@ -96,8 +97,8 @@ public class Drone implements DroneRemoteIF,Moveable {
         System.out.println("Drone is up and heading the destination....");
         //System.out.print("[");
 
-        for(int i = commands.length-1 ; i >=0 ; i--){
-            converter.executeCommand(commands[i]);
+        for(int i = commands.size() - 1; i >=0 ; i--){
+            converter.executeCommand(commands.get(i).getAsJsonObject());
 
             //System.out.print("=");
         }
@@ -126,12 +127,12 @@ public class Drone implements DroneRemoteIF,Moveable {
         } catch (RemoteException e) {
             e.printStackTrace();
         }*/
-        Drone[] drones = new Drone[MyConstants.NUMBER_OF_DRONES];
+       /* Drone[] drones = new Drone[MyConstants.NUMBER_OF_DRONES];
         for(int i=0; i<MyConstants.NUMBER_OF_DRONES; i++){
             drones[i] = new Drone("drone"+i);
             drones[i].run(1);
             System.out.println("drone"+i+" is up and running");
-        }
+        }*/
 
     }
 }
